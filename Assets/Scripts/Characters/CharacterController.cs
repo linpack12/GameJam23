@@ -8,9 +8,12 @@ public class CharacterController : MonoBehaviour
     public float rotationSpeed = 10.0f;
     private Vector3 currentVelocity = Vector3.zero;
     private Rigidbody rb;
+    private GameObject manCollider;
+    private GameObject dogCollider;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        
     }
 
     private void FixedUpdate()
@@ -47,6 +50,17 @@ public class CharacterController : MonoBehaviour
         {
             Quaternion newRotation = Quaternion.LookRotation(moveDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
+        }
+    }
+
+    private void OnCollisionEnter(Collision other) {
+        if(gameObject.CompareTag("dog")) {
+            
+            gameObject.transform.position = other.transform.position;
+        }
+
+        if(other.gameObject.CompareTag("moveable")) {
+            
         }
     }
 }
