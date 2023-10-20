@@ -17,6 +17,7 @@ public class CameraController : MonoBehaviour
         // Calculate the initial offset based on the fixed angle
         float angleInRadians = angle * Mathf.Deg2Rad; // Change the angle as needed
         offset = new Vector3(0, height, Mathf.Sin(angleInRadians) * distance * -1);
+        Debug.Log(target.transform.position);
     }
 
     private void Update()
