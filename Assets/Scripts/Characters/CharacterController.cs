@@ -6,9 +6,8 @@ public class CharacterController : MonoBehaviour
 {
     public float moveSpeed = 5.0f;
     public float rotationSpeed = 10.0f;
-
-    public Rigidbody rb;
-
+    private Vector3 currentVelocity = Vector3.zero;
+    private Rigidbody rb;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -33,9 +32,15 @@ public class CharacterController : MonoBehaviour
         // Calculate movement direction
         Vector3 moveDirection = new Vector3(horizontalInput, 0f, verticalInput).normalized;
 
-        // Calculate the desired movement force
-        Vector3 movement = moveDirection * moveSpeed;
-        rb.AddForce(movement, ForceMode.Force);
+        // Calculate the desired movement velocity
+        Vector3 targetVelocity = moveDirection * moveSpeed;
+
+        // Smoothly lerp the current velocity to the target velocity
+        currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, 0.2f);
+
+        // Apply the velocity to the Rigidbody
+        rb.velocity = currentVelocity;
+
 
         // Rotate the character to face the movement direction
         if (moveDirection != Vector3.zero)
